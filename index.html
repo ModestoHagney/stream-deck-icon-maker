@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stream Deck Icon Generator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+            background: #111827;
+            color: #fff;
+            padding: 2rem;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+        
+        @media (max-width: 768px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .controls {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        label {
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+        
+        input[type="text"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 0.5rem 0.75rem;
+            background: #1f2937;
+            border: 1px solid #374151;
+            border-radius: 0.375rem;
+            color: #fff;
+            font-family: inherit;
+        }
+        
+        textarea {
+            resize: vertical;
+            min-height: 4rem;
+        }
+        
+        input[type="range"] {
+            width: 100%;
+            height: 0.5rem;
+            background: #374151;
+            border-radius: 0.25rem;
+            outline: none;
+        }
+        
+        input[type="color"] {
+            height: 2.5rem;
+            width: 5rem;
+            background: #1f2937;
+            border: 1px solid #374151;
+            border-radius: 0.375rem;
+            cursor: pointer;
+        }
+        
+        .color-input {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .color-input input[type="text"] {
+            flex: 1;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .checkbox-group {
+            display: flex;
+            gap: 1.5rem;
+        }
+        
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+        }
+        
+        input[type="checkbox"] {
+            width: 1rem;
+            height: 1rem;
+            cursor: pointer;
+        }
+        
+        .preview-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .canvas-wrapper {
+            background: #1f2937;
+            padding: 2rem;
+            border-radius: 0.5rem;
+        }
+        
+        canvas {
+            border: 2px solid #4b5563;
+            image-rendering: crisp-edges;
+        }
+        
+        button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            background: #2563eb;
+            color: #fff;
+            border: none;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        
+        button:hover {
+            background: #1d4ed8;
+        }
+        
+        .info {
+            text-align: center;
+            font-size: 0.875rem;
+            color: #9ca3af;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Stream Deck Icon Generator</h1>
+        
+        <div class="grid">
+            <div class="controls">
+                <div class="control-group">
+                    <label for="text">Icon Text</label>
+                    <textarea id="text" placeholder="Enter text (use Enter for new lines)">MUTE</textarea>
+                </div>
+
+                <div class="control-group">
+                    <label for="fontFamily">Font Family</label>
+                    <select id="fontFamily">
+                        <option>Arial</option>
+                        <option>Arial Black</option>
+                        <option>Verdana</option>
+                        <option>Tahoma</option>
+                        <option>Trebuchet MS</option>
+                        <option>Impact</option>
+                        <option>Times New Roman</option>
+                        <option>Georgia</option>
+                        <option>Courier New</option>
+                        <option>Comic Sans MS</option>
+                        <option>Palatino Linotype</option>
+                        <option>Lucida Console</option>
+                        <option>Lucida Sans Unicode</option>
+                        <option>MS Sans Serif</option>
+                        <option>MS Serif</option>
+                    </select>
+                </div>
+
+                <div class="control-group">
+                    <label for="fontSize">Font Size: <span id="fontSizeValue">32</span>px</label>
+                    <input type="range" id="fontSize" min="12" max="72" value="32">
+                </div>
+
+                <div class="checkbox-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="isBold">
+                        <span>Bold</span>
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="isItalic">
+                        <span>Italic</span>
+                    </label>
+                </div>
+
+                <div class="control-group">
+                    <label>Text Color</label>
+                    <div class="color-input">
+                        <input type="color" id="textColor" value="#ffffff">
+                        <input type="text" id="textColorHex" value="#ffffff">
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label>Background Color</label>
+                    <div class="color-input">
+                        <input type="color" id="bgColor" value="#1a1a1a">
+                        <input type="text" id="bgColorHex" value="#1a1a1a">
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label>Border Color</label>
+                    <div class="color-input">
+                        <input type="color" id="borderColor" value="#ff0000">
+                        <input type="text" id="borderColorHex" value="#ff0000">
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label for="borderWidth">Border Width: <span id="borderWidthValue">4</span>px</label>
+                    <input type="range" id="borderWidth" min="0" max="20" value="4">
+                </div>
+
+                <div class="control-group">
+                    <label for="cornerRadius">Corner Radius: <span id="cornerRadiusValue">0</span>px</label>
+                    <input type="range" id="cornerRadius" min="0" max="72" value="0">
+                </div>
+            </div>
+
+            <div class="preview-section">
+                <div class="canvas-wrapper">
+                    <canvas id="canvas" width="144" height="144"></canvas>
+                </div>
+                
+                <button id="download">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="7 10 12 15 17 10"></polyline>
+                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                    </svg>
+                    Download Icon (144x144)
+                </button>
+
+                <div class="info">
+                    <p>Icon will be saved as PNG</p>
+                    <p>Perfect for Stream Deck at 144x144px</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Load saved settings
+        function loadSetting(key, defaultValue) {
+            try {
+                const saved = localStorage.getItem(key);
+                return saved !== null ? JSON.parse(saved) : defaultValue;
+            } catch {
+                return defaultValue;
+            }
+        }
+
+        function saveSetting(key, value) {
+            try {
+                localStorage.setItem(key, JSON.stringify(value));
+            } catch {}
+        }
+
+        // Get elements
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        const textInput = document.getElementById('text');
+        const fontFamilySelect = document.getElementById('fontFamily');
+        const fontSizeInput = document.getElementById('fontSize');
+        const fontSizeValue = document.getElementById('fontSizeValue');
+        const isBoldCheckbox = document.getElementById('isBold');
+        const isItalicCheckbox = document.getElementById('isItalic');
+        const textColorInput = document.getElementById('textColor');
+        const textColorHex = document.getElementById('textColorHex');
+        const bgColorInput = document.getElementById('bgColor');
+        const bgColorHex = document.getElementById('bgColorHex');
+        const borderColorInput = document.getElementById('borderColor');
+        const borderColorHex = document.getElementById('borderColorHex');
+        const borderWidthInput = document.getElementById('borderWidth');
+        const borderWidthValue = document.getElementById('borderWidthValue');
+        const cornerRadiusInput = document.getElementById('cornerRadius');
+        const cornerRadiusValue = document.getElementById('cornerRadiusValue');
+        const downloadBtn = document.getElementById('download');
+
+        // Load saved settings
+        textInput.value = loadSetting('text', 'MUTE');
+        fontFamilySelect.value = loadSetting('fontFamily', 'Arial');
+        fontSizeInput.value = loadSetting('fontSize', 32);
+        isBoldCheckbox.checked = loadSetting('isBold', false);
+        isItalicCheckbox.checked = loadSetting('isItalic', false);
+        textColorInput.value = loadSetting('textColor', '#ffffff');
+        textColorHex.value = loadSetting('textColor', '#ffffff');
+        bgColorInput.value = loadSetting('bgColor', '#1a1a1a');
+        bgColorHex.value = loadSetting('bgColor', '#1a1a1a');
+        borderColorInput.value = loadSetting('borderColor', '#ff0000');
+        borderColorHex.value = loadSetting('borderColor', '#ff0000');
+        borderWidthInput.value = loadSetting('borderWidth', 4);
+        cornerRadiusInput.value = loadSetting('cornerRadius', 0);
+
+        function drawIcon() {
+            const size = 144;
+            const text = textInput.value;
+            const fontFamily = fontFamilySelect.value;
+            const fontSize = parseInt(fontSizeInput.value);
+            const isBold = isBoldCheckbox.checked;
+            const isItalic = isItalicCheckbox.checked;
+            const textColor = textColorInput.value;
+            const bgColor = bgColorInput.value;
+            const borderColor = borderColorInput.value;
+            const borderWidth = parseInt(borderWidthInput.value);
+            const cornerRadius = parseInt(cornerRadiusInput.value);
+
+            ctx.clearRect(0, 0, size, size);
+
+            // Draw background
+            ctx.fillStyle = bgColor;
+            if (cornerRadius > 0) {
+                ctx.beginPath();
+                ctx.roundRect(0, 0, size, size, cornerRadius);
+                ctx.fill();
+            } else {
+                ctx.fillRect(0, 0, size, size);
+            }
+
+            // Draw border
+            if (borderWidth > 0) {
+                ctx.strokeStyle = borderColor;
+                ctx.lineWidth = borderWidth;
+                if (cornerRadius > 0) {
+                    ctx.beginPath();
+                    ctx.roundRect(borderWidth / 2, borderWidth / 2, size - borderWidth, size - borderWidth, Math.max(0, cornerRadius - borderWidth / 2));
+                    ctx.stroke();
+                } else {
+                    ctx.strokeRect(borderWidth / 2, borderWidth / 2, size - borderWidth, size - borderWidth);
+                }
+            }
+
+            // Draw text
+            ctx.fillStyle = textColor;
+            const fontStyle = `${isItalic ? 'italic' : ''} ${isBold ? 'bold' : ''} ${fontSize}px ${fontFamily}`.trim();
+            ctx.font = fontStyle;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            
+            const italicOffset = isItalic ? -fontSize * 0.10 : 0;
+            
+            const lines = text.split('\n');
+            const lineHeight = fontSize * 1.2;
+            const totalHeight = lines.length * lineHeight;
+            const startY = (size - totalHeight) / 2 + lineHeight / 2;
+
+            lines.forEach((line, index) => {
+                ctx.fillText(line, size / 2 + italicOffset, startY + index * lineHeight);
+            });
+        }
+
+        // Event listeners
+        textInput.addEventListener('input', () => {
+            saveSetting('text', textInput.value);
+            drawIcon();
+        });
+
+        fontFamilySelect.addEventListener('change', () => {
+            saveSetting('fontFamily', fontFamilySelect.value);
+            drawIcon();
+        });
+
+        fontSizeInput.addEventListener('input', () => {
+            fontSizeValue.textContent = fontSizeInput.value;
+            saveSetting('fontSize', parseInt(fontSizeInput.value));
+            drawIcon();
+        });
+
+        isBoldCheckbox.addEventListener('change', () => {
+            saveSetting('isBold', isBoldCheckbox.checked);
+            drawIcon();
+        });
+
+        isItalicCheckbox.addEventListener('change', () => {
+            saveSetting('isItalic', isItalicCheckbox.checked);
+            drawIcon();
+        });
+
+        textColorInput.addEventListener('input', () => {
+            textColorHex.value = textColorInput.value;
+            saveSetting('textColor', textColorInput.value);
+            drawIcon();
+        });
+
+        textColorHex.addEventListener('input', () => {
+            textColorInput.value = textColorHex.value;
+            saveSetting('textColor', textColorHex.value);
+            drawIcon();
+        });
+
+        bgColorInput.addEventListener('input', () => {
+            bgColorHex.value = bgColorInput.value;
+            saveSetting('bgColor', bgColorInput.value);
+            drawIcon();
+        });
+
+        bgColorHex.addEventListener('input', () => {
+            bgColorInput.value = bgColorHex.value;
+            saveSetting('bgColor', bgColorHex.value);
+            drawIcon();
+        });
+
+        borderColorInput.addEventListener('input', () => {
+            borderColorHex.value = borderColorInput.value;
+            saveSetting('borderColor', borderColorInput.value);
+            drawIcon();
+        });
+
+        borderColorHex.addEventListener('input', () => {
+            borderColorInput.value = borderColorHex.value;
+            saveSetting('borderColor', borderColorHex.value);
+            drawIcon();
+        });
+
+        borderWidthInput.addEventListener('input', () => {
+            borderWidthValue.textContent = borderWidthInput.value;
+            saveSetting('borderWidth', parseInt(borderWidthInput.value));
+            drawIcon();
+        });
+
+        cornerRadiusInput.addEventListener('input', () => {
+            cornerRadiusValue.textContent = cornerRadiusInput.value;
+            saveSetting('cornerRadius', parseInt(cornerRadiusInput.value));
+            drawIcon();
+        });
+
+        downloadBtn.addEventListener('click', () => {
+            canvas.toBlob((blob) => {
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `streamdeck-icon-${Date.now()}.png`;
+                a.click();
+                URL.revokeObjectURL(url);
+            });
+        });
+
+        // Update value displays
+        fontSizeValue.textContent = fontSizeInput.value;
+        borderWidthValue.textContent = borderWidthInput.value;
+        cornerRadiusValue.textContent = cornerRadiusInput.value;
+
+        // Initial draw
+        drawIcon();
+    </script>
+</body>
+</html>
