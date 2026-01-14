@@ -276,8 +276,8 @@
                     </div>
                     <div class="color-presets" id="borderColorPresets"></div>
                     <div class="preset-actions">
-                        <button type="button" class="preset-btn" id="saveBorderColor">Save Current</button>
-                        <button type="button" class="preset-btn" id="resetBorderColors">Reset to Defaults</button>
+                        <button type="button" class="preset-btn" id="saveBorderColor">Add</button>
+                        <button type="button" class="preset-btn" id="deleteBorderColor">Delete</button>
                     </div>
                 </div>
 
@@ -541,10 +541,14 @@
             }
         });
 
-        document.getElementById('resetBorderColors').addEventListener('click', () => {
-            borderColorPresets = [...defaultBorderColors];
-            saveSetting('borderColorPresets', borderColorPresets);
-            renderBorderColorPresets();
+        document.getElementById('deleteBorderColor').addEventListener('click', () => {
+            const currentColor = borderColorInput.value;
+            const index = borderColorPresets.indexOf(currentColor);
+            if (index > -1) {
+                borderColorPresets.splice(index, 1);
+                saveSetting('borderColorPresets', borderColorPresets);
+                renderBorderColorPresets();
+            }
         });
 
         downloadBtn.addEventListener('click', () => {
