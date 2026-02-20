@@ -4,285 +4,450 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Stream Deck Icon Generator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Commissioner:wght@300;400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
 <style>
-:root{
-    --bg:#0c0f13;
-    --panel:#151a20;
-    --panel-soft:#1b2128;
-    --border:#2b323c;
-    --text:#e8edf2;
-    --muted:#98a2ad;
-    --accent:#e8edf2;          /* neutral highlight instead of colour */
-    --accent-soft:#ffffff14;
+:root {
+    --bg: #fef9f0;
+    --surface: #ffffff;
+    --text-primary: #1a1a1a;
+    --text-secondary: #6b6b6b;
+    --accent: #ff6b35;
+    --accent-hover: #ff4f1a;
+    --border: #e5e5e5;
+    --shadow: rgba(255, 107, 53, 0.12);
+    --input-bg: #fafafa;
+}
+
+[data-theme="dark"] {
+    --bg: #1a1a1a;
+    --surface: #2a2a2a;
+    --text-primary: #f0f0f0;
+    --text-secondary: #a0a0a0;
+    --accent: #ff8c5a;
+    --accent-hover: #ffa778;
+    --border: #3a3a3a;
+    --shadow: rgba(0, 0, 0, 0.3);
+    --input-bg: #242424;
 }
 
 /* reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-*{margin:0;padding:0;box-sizing:border-box;}
+body {
+    font-family: 'Commissioner', sans-serif;
+    background: var(--bg);
+    color: var(--text-primary);
+    padding: 2.5rem 1.5rem;
+    min-height: 100vh;
+    transition: background-color 0.4s ease, color 0.4s ease;
+    position: relative;
+}
 
-body{
-    font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
-    background:linear-gradient(#0e1116,#0b0e12);
-    color:var(--text);
-    padding:2.5rem 1.5rem;
-    min-height:100vh;
+/* Decorative background elements */
+body::before {
+    content: '';
+    position: fixed;
+    top: -50%;
+    right: -20%;
+    width: 60%;
+    height: 100%;
+    background: radial-gradient(circle, rgba(255, 107, 53, 0.08) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+body::after {
+    content: '';
+    position: fixed;
+    bottom: -30%;
+    left: -15%;
+    width: 50%;
+    height: 80%;
+    background: radial-gradient(circle, rgba(232, 212, 184, 0.15) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Theme Toggle */
+.theme-toggle {
+    position: fixed;
+    top: 2rem;
+    right: 2rem;
+    background: var(--surface);
+    border: 2px solid var(--border);
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 16px var(--shadow);
+    z-index: 100;
+}
+
+.theme-toggle:hover {
+    transform: rotate(180deg) scale(1.1);
+    border-color: var(--accent);
 }
 
 /* container */
-
-.container{
-    max-width:1040px;
-    margin:auto;
-    background:var(--panel);
-    border-radius:18px;
-    padding:2.4rem;
-    border:1px solid var(--border);
-    box-shadow:0 30px 70px rgba(0,0,0,.45);
+.container {
+    max-width: 1040px;
+    margin: auto;
+    background: var(--surface);
+    border-radius: 32px;
+    padding: 3rem 2.4rem;
+    border: 3px solid var(--border);
+    box-shadow: 0 20px 60px var(--shadow);
+    position: relative;
+    z-index: 1;
 }
 
-h1{
-    font-size:1.65rem;
-    margin-bottom:2rem;
-    font-weight:600;
-    letter-spacing:.3px;
+h1 {
+    font-family: 'Inter', sans-serif;
+    font-size: 2rem;
+    margin-bottom: 2.5rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    color: var(--text-primary);
+    text-transform: uppercase;
+}
+
+.subtitle {
+    color: var(--text-secondary);
+    margin-bottom: 2.5rem;
+    font-size: 1.05rem;
 }
 
 /* layout */
-
-.grid{
-    display:grid;
-    grid-template-columns: 1.1fr .9fr;
-    gap:2.4rem;
-    align-items:start;
+.grid {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 2.4rem;
+    align-items: start;
 }
 
-@media (max-width:800px){
-    .grid{grid-template-columns:1fr;}
+@media (max-width: 800px) {
+    .grid {
+        grid-template-columns: 1fr;
+    }
+    .theme-toggle {
+        top: 1rem;
+        right: 1rem;
+        width: 48px;
+        height: 48px;
+    }
 }
 
 /* controls */
-
-.controls{
-    display:flex;
-    flex-direction:column;
-    gap:1.2rem;
+.controls {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
 }
 
 /* section grouping */
-.control-group{
-    background:var(--panel-soft);
-    border:1px solid var(--border);
-    border-radius:12px;
-    padding:.85rem .9rem;
-    display:flex;
-    flex-direction:column;
-    gap:.45rem;
+.control-group {
+    background: var(--input-bg);
+    border: 2px solid var(--border);
+    border-radius: 16px;
+    padding: 1rem 1.1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    transition: all 0.3s ease;
 }
 
-label{
-    font-size:.75rem;
-    font-weight:600;
-    color:var(--muted);
-    letter-spacing:.25px;
+label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+.control-group label:not(:first-child) {
+    margin-top: 1rem;
 }
 
 /* inputs */
-
 input[type="text"],
 textarea,
-select{
-    padding:.5rem .65rem;
-    background:#0f1318;
-    border:1px solid var(--border);
-    border-radius:7px;
-    color:var(--text);
-    font-size:.9rem;
-    width:100%;
-    transition:.15s;
+select {
+    padding: 0.75rem 1rem;
+    background: var(--surface);
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    color: var(--text-primary);
+    font-size: 0.95rem;
+    font-family: 'Commissioner', sans-serif;
+    max-width: 100%;
+    transition: all 0.3s ease;
 }
 
 input:focus,
 textarea:focus,
-select:focus{
-    outline:none;
-    border-color:var(--accent);
-    box-shadow:0 0 0 1px var(--accent-soft);
+select:focus {
+    outline: none;
+    border-color: var(--accent);
 }
 
-textarea{resize:vertical;min-height:3.2rem;}
-select{cursor:pointer;}
+textarea {
+    resize: vertical;
+    min-height: 3.2rem;
+    font-family: 'Commissioner', sans-serif;
+}
+
+select {
+    cursor: pointer;
+}
 
 /* sliders */
+input[type="range"] {
+    width: 100%;
+    max-width: 400px;
+    height: 8px;
+    border-radius: 10px;
+    background: var(--border);
+    outline: none;
+    -webkit-appearance: none;
+    appearance: none;
+    cursor: pointer;
+}
 
-input[type="range"]{
-    width:100%;
-    accent-color:var(--accent);
-    cursor:pointer;
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--accent);
+    cursor: pointer;
+    border: 3px solid var(--surface);
+    box-shadow: 0 2px 8px var(--shadow);
+    transition: all 0.3s ease;
+}
+
+input[type="range"]::-webkit-slider-thumb:hover {
+    transform: scale(1.2);
+}
+
+input[type="range"]::-moz-range-thumb {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--accent);
+    cursor: pointer;
+    border: 3px solid var(--surface);
+    box-shadow: 0 2px 8px var(--shadow);
 }
 
 /* colours */
-
-input[type="color"]{
-    height:2rem;
-    width:3.4rem;
-    border-radius:6px;
-    border:1px solid var(--border);
-    background:#0f1318;
-    cursor:pointer;
+input[type="color"] {
+    height: 56px;
+    width: 56px;
+    border-radius: 12px;
+    border: 3px solid var(--border);
+    background: var(--surface);
+    cursor: pointer;
+    transition: all 0.3s ease;
 }
 
-.color-input{
-    display:flex;
-    gap:.55rem;
-    align-items:center;
+input[type="color"]:hover {
+    border-color: var(--accent);
+    transform: scale(1.05);
 }
 
-.color-input input[type="text"]{
-    width:6rem;
-    font-family:monospace;
-    font-size:.75rem;
+.color-input {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+}
+
+.color-input input[type="text"] {
+    flex: 1;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.9rem;
 }
 
 /* presets */
-
-.color-presets{
-    display:flex;
-    gap:.4rem;
-    flex-wrap:wrap;
-    margin-top:.2rem;
+.color-presets {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-top: 0.4rem;
 }
 
-.color-preset{
-    width:1.8rem;
-    height:1.8rem;
-    border-radius:6px;
-    border:2px solid var(--border);
-    cursor:pointer;
-    transition:.12s;
+.color-preset {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    border: 3px solid var(--border);
+    cursor: pointer;
+    transition: all 0.25s ease;
 }
 
-.color-preset:hover{
-    transform:scale(1.1);
-    border-color:var(--accent);
+.color-preset:hover {
+    transform: scale(1.1);
+    border-color: var(--accent);
 }
 
-.color-preset.active{
-    border-color:var(--accent);
-    box-shadow:0 0 0 2px var(--accent-soft);
+.color-preset.active {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.2);
+    transform: scale(1.05);
 }
 
 /* small buttons */
-
-.preset-actions{
-    display:flex;
-    gap:.4rem;
-    margin-top:.3rem;
+.preset-actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
 }
 
-.preset-btn{
-    padding:.35rem .65rem;
-    font-size:.72rem;
-    background:#0f1318;
-    border:1px solid var(--border);
-    color:var(--text);
-    border-radius:6px;
-    cursor:pointer;
+.preset-btn {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    background: var(--surface);
+    border: 2px solid var(--border);
+    color: var(--text-primary);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Commissioner', sans-serif;
+    width: auto;
+    box-shadow: none;
 }
 
-.preset-btn:hover{
-    border-color:var(--accent);
+.preset-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    transform: translateY(-1px);
+    box-shadow: none;
 }
 
 /* checkboxes */
-
-.checkbox-group{
-    display:flex;
-    gap:1.2rem;
-    padding:.3rem 0 .1rem;
+.checkbox-group {
+    display: flex;
+    gap: 1.5rem;
+    padding: 0.5rem 0 0.2rem;
+    align-items: flex-start;
 }
 
-.checkbox-label{
-    display:flex;
-    align-items:center;
-    gap:.4rem;
-    font-size:.85rem;
-    cursor:pointer;
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+    cursor: pointer;
+    color: var(--text-primary);
+    font-weight: 500;
+    text-transform: none;
+    margin: 0 !important;
+    padding: 0;
 }
 
-input[type="checkbox"]{
-    accent-color:var(--accent);
+.checkbox-label span {
+    line-height: 1;
+    padding-top: 1px;
+}
+
+input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: var(--accent);
+    cursor: pointer;
+    margin: 0;
+    padding: 0;
 }
 
 /* preview side */
-
-.preview-section{
-    position:sticky;
-    top:2rem;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    gap:1.2rem;
+.preview-section {
+    position: sticky;
+    top: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.2rem;
 }
 
-.canvas-wrapper{
-    background:#0e1217;
-    padding:2.2rem;
-    border-radius:14px;
-    border:1px solid var(--border);
+.canvas-wrapper {
+    background: repeating-conic-gradient(var(--border) 0% 25%, transparent 0% 50%) 50% / 20px 20px;
+    padding: 3rem;
+    border-radius: 20px;
+    border: 3px solid var(--border);
+    box-shadow: 0 8px 24px var(--shadow);
 }
 
-canvas{
-    border-radius:10px;
-    border:2px solid var(--border);
+canvas {
+    border-radius: 12px;
+    border: 2px solid var(--border);
+    display: block;
+    filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.15));
 }
 
 /* main buttons */
-
-button{
-    width:100%;
-    max-width:240px;
-    padding:.75rem 1.2rem;
-    border-radius:10px;
-    border:1px solid var(--border);
-    background:#0f1318;
-    color:var(--text);
-    font-weight:600;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    gap:.45rem;
-    cursor:pointer;
-    transition:.15s;
+button {
+    width: 100%;
+    max-width: 280px;
+    padding: 1rem 1.5rem;
+    border-radius: 14px;
+    border: none;
+    background: var(--accent);
+    color: white;
+    font-weight: 700;
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 6px 20px rgba(255, 107, 53, 0.3);
 }
 
-button:hover{
-    border-color:var(--accent);
-    background:#121820;
-    transform:translateY(-1px);
+button:hover {
+    background: var(--accent-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 28px rgba(255, 107, 53, 0.4);
 }
 
-button:active{
-    transform:translateY(0);
+button:active {
+    transform: translateY(0);
 }
 
-.info{
-    font-size:.75rem;
-    color:var(--muted);
+.info {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    font-weight: 500;
 }
 </style>
 </head>
-<body>
+<body data-theme="light">
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">☀️</button>
+
     <div class="container">
         <h1>Stream Deck Icon Generator</h1>
         
         <div class="grid">
             <div class="controls">
                 <div class="control-group">
-                    <label for="text">Icon Text</label>
+                    <label for="text">Text</label>
                     <textarea id="text" placeholder="Enter text">MUTE</textarea>
-                </div>
-
-                <div class="control-group">
+                    
                     <label for="fontFamily">Font</label>
                     <select id="fontFamily">
                         <option>Arial</option>
@@ -301,47 +466,39 @@ button:active{
                         <option>MS Sans Serif</option>
                         <option>MS Serif</option>
                     </select>
-                </div>
 
-                <div class="control-group">
                     <label for="fontSize">Size: <span id="fontSizeValue">32</span>px</label>
-                    <input type="range" id="fontSize" min="12" max="72" value="32">
-                </div>
+                    <input type="range" id="fontSize" min="24" max="72" value="48">
 
-                <div class="control-group">
                     <label for="verticalOffset">Vertical: <span id="verticalOffsetValue">0</span>px</label>
                     <input type="range" id="verticalOffset" min="-30" max="30" value="0">
-                </div>
 
-                <div class="checkbox-group">
-                    <label class="checkbox-label">
-                        <input type="checkbox" id="isBold">
-                        <span>Bold</span>
-                    </label>
-                    <label class="checkbox-label">
-                        <input type="checkbox" id="isItalic">
-                        <span>Italic</span>
-                    </label>
+                    <div class="checkbox-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="isBold">
+                            <span>Bold</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="isItalic">
+                            <span>Italic</span>
+                        </label>
+                    </div>
                 </div>
 
                 <div class="control-group">
-                    <label>Text</label>
+                    <label>Text Color</label>
                     <div class="color-input">
                         <input type="color" id="textColor" value="#ffffff">
                         <input type="text" id="textColorHex" value="#ffffff">
                     </div>
-                </div>
 
-                <div class="control-group">
-                    <label>Background</label>
+                    <label>Background Color</label>
                     <div class="color-input">
                         <input type="color" id="bgColor" value="#1a1a1a">
                         <input type="text" id="bgColorHex" value="#1a1a1a">
                     </div>
-                </div>
 
-                <div class="control-group">
-                    <label>Border</label>
+                    <label>Border Color</label>
                     <div class="color-input">
                         <input type="color" id="borderColor" value="#ff0000">
                         <input type="text" id="borderColorHex" value="#ff0000">
@@ -354,12 +511,10 @@ button:active{
                 </div>
 
                 <div class="control-group">
-                    <label for="borderWidth">Border: <span id="borderWidthValue">4</span>px</label>
+                    <label for="borderWidth">Border Width: <span id="borderWidthValue">4</span>px</label>
                     <input type="range" id="borderWidth" min="0" max="20" value="4">
-                </div>
 
-                <div class="control-group">
-                    <label for="cornerRadius">Radius: <span id="cornerRadiusValue">0</span>px</label>
+                    <label for="cornerRadius">Corner Radius: <span id="cornerRadiusValue">0</span>px</label>
                     <input type="range" id="cornerRadius" min="0" max="72" value="0">
                 </div>
             </div>
@@ -395,6 +550,23 @@ button:active{
     </div>
 
     <script>
+        // Theme Toggle
+        const themeToggle = document.getElementById('themeToggle');
+        const body = document.body;
+        
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = body.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            body.setAttribute('data-theme', newTheme);
+            themeToggle.textContent = newTheme === 'light' ? '☀️' : '🌙';
+            localStorage.setItem('theme', newTheme);
+        });
+
+        // Load saved theme
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        body.setAttribute('data-theme', savedTheme);
+        themeToggle.textContent = savedTheme === 'light' ? '☀️' : '🌙';
+
         // Load saved settings
         function loadSetting(key, defaultValue) {
             try {
@@ -514,17 +686,37 @@ button:active{
             const fontStyle = `${isItalic ? 'italic' : ''} ${isBold ? 'bold' : ''} ${fontSize}px ${fontFamily}`.trim();
             context.font = fontStyle;
             context.textAlign = 'center';
-            context.textBaseline = 'middle';
-            
-            const italicOffset = isItalic ? -fontSize * 0.10 : 0;
-            
-            const lines = text.split('\n');
-            const lineHeight = fontSize * 1.2;
-            const totalHeight = lines.length * lineHeight;
-            const startY = (size - totalHeight) / 2 + lineHeight / 2 + verticalOffset;
+            context.textBaseline = 'alphabetic';
 
-            lines.forEach((line, index) => {
-                context.fillText(line, size / 2 + italicOffset, startY + index * lineHeight);
+            const italicOffset = isItalic ? -fontSize * 0.08 : 0;
+
+            const lines = text.split('\n');
+            const spacing = fontSize * 0.2;
+
+            // Measure each line
+            const measurements = lines.map(line => {
+                const m = context.measureText(line);
+                return {
+                    line,
+                    ascent: m.actualBoundingBoxAscent,
+                    descent: m.actualBoundingBoxDescent,
+                    height: m.actualBoundingBoxAscent + m.actualBoundingBoxDescent
+                };
+            });
+
+            // Compute full block height
+            const totalHeight =
+                measurements.reduce((sum, m) => sum + m.height, 0) +
+                spacing * (lines.length - 1);
+
+            // Top of the block so its center aligns with canvas center
+            let y = (size - totalHeight) / 2 - verticalOffset;
+
+            // Draw lines
+            measurements.forEach(m => {
+                const baselineY = y + m.ascent;
+                context.fillText(m.line, size / 2 + italicOffset, baselineY);
+                y += m.height + spacing;
             });
         }
 
