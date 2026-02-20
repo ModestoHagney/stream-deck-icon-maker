@@ -260,6 +260,28 @@ input[type="color"] {
     background: var(--surface);
     cursor: pointer;
     transition: all 0.3s ease;
+
+    /* remove native styling */
+    -webkit-appearance: none;
+    appearance: none;
+    padding: 0;
+}
+
+/* remove inner browser wrapper */
+input[type="color"]::-webkit-color-swatch-wrapper {
+    padding: 0;
+}
+
+/* remove inner border */
+input[type="color"]::-webkit-color-swatch {
+    border: none;
+    border-radius: 9px;
+}
+
+/* Firefox */
+input[type="color"]::-moz-color-swatch {
+    border: none;
+    border-radius: 9px;
 }
 
 input[type="color"]:hover {
