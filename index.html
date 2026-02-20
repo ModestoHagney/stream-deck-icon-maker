@@ -13,20 +13,26 @@
         
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
-            background: #111827;
-            color: #fff;
+            background: #121212;
+            color: #969696;
             padding: 2rem;
             min-height: 100vh;
         }
         
         .container {
-            max-width: 1200px;
+            max-width: 1000px;
             margin: 0 auto;
+            background: #1a1a1a;
+            border-radius: 1rem;
+            padding: 2rem;
+            border: 1px solid #2a2a2a;
         }
         
         h1 {
-            font-size: 2rem;
-            margin-bottom: 2rem;
+            font-size: 1.75rem;
+            margin-bottom: 1.5rem;
+            color: #DFA05D;
+            font-weight: 600;
         }
         
         .grid {
@@ -44,50 +50,67 @@
         .controls {
             display: flex;
             flex-direction: column;
-            gap: 1.5rem;
+            gap: 1rem;
         }
         
         .control-group {
             display: flex;
             flex-direction: column;
-            gap: 0.5rem;
+            gap: 0.4rem;
         }
         
         label {
-            font-size: 0.875rem;
+            font-size: 0.8rem;
             font-weight: 500;
+            color: #969696;
         }
         
         input[type="text"],
         textarea,
         select {
-            width: 100%;
-            padding: 0.5rem 0.75rem;
-            background: #1f2937;
-            border: 1px solid #374151;
+            padding: 0.4rem 0.6rem;
+            background: #1f1f1f;
+            border: 1px solid #3a3a3a;
             border-radius: 0.375rem;
-            color: #fff;
+            color: #969696;
             font-family: inherit;
+            font-size: 0.875rem;
+            width: 100%;
+            max-width: 300px;
+            transition: border-color 0.2s;
+        }
+        
+        input[type="text"]:focus,
+        textarea:focus,
+        select:focus {
+            outline: none;
+            border-color: #DFA05D;
         }
         
         textarea {
             resize: vertical;
-            min-height: 4rem;
+            min-height: 3rem;
+        }
+        
+        select {
+            cursor: pointer;
         }
         
         input[type="range"] {
             width: 100%;
-            height: 0.5rem;
-            background: #374151;
+            max-width: 300px;
+            height: 0.375rem;
+            background: #3a3a3a;
             border-radius: 0.25rem;
             outline: none;
+            cursor: pointer;
         }
         
         input[type="color"] {
-            height: 2.5rem;
-            width: 5rem;
-            background: #1f2937;
-            border: 1px solid #374151;
+            height: 2rem;
+            width: 3.5rem;
+            background: #1f1f1f;
+            border: 1px solid #3a3a3a;
             border-radius: 0.375rem;
             cursor: pointer;
         }
@@ -95,69 +118,79 @@
         .color-input {
             display: flex;
             gap: 0.5rem;
+            align-items: center;
         }
         
         .color-input input[type="text"] {
-            flex: 1;
+            width: 5rem;
             font-family: 'Courier New', monospace;
+            font-size: 0.75rem;
         }
         
         .color-presets {
             display: flex;
-            gap: 0.5rem;
+            gap: 0.4rem;
             flex-wrap: wrap;
         }
         
         .color-preset {
-            width: 2rem;
-            height: 2rem;
-            border: 2px solid #374151;
-            border-radius: 0.375rem;
+            width: 1.75rem;
+            height: 1.75rem;
+            border: 2px solid #3a3a3a;
+            border-radius: 0.25rem;
             cursor: pointer;
-            transition: border-color 0.2s;
+            transition: all 0.2s;
         }
         
         .color-preset:hover {
-            border-color: #2563eb;
+            border-color: #DFA05D;
+            transform: scale(1.1);
         }
         
         .color-preset.active {
-            border-color: #2563eb;
-            box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
+            border-color: #DFA05D;
+            box-shadow: 0 0 0 2px rgba(223, 160, 93, 0.3);
         }
         
         .preset-actions {
             display: flex;
-            gap: 0.5rem;
-            margin-top: 0.5rem;
+            gap: 0.4rem;
         }
         
         .preset-btn {
-            padding: 0.375rem 0.75rem;
-            font-size: 0.75rem;
-            background: #374151;
+            padding: 0.25rem 0.6rem;
+            font-size: 0.7rem;
+            background: #658761;
+            color: #fff;
+            border: none;
+            border-radius: 0.25rem;
+            cursor: pointer;
+            transition: background 0.2s;
+            font-weight: 500;
         }
         
         .preset-btn:hover {
-            background: #4b5563;
+            background: #557155;
         }
         
         .checkbox-group {
             display: flex;
-            gap: 1.5rem;
+            gap: 1rem;
         }
         
         .checkbox-label {
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.4rem;
             cursor: pointer;
+            font-size: 0.85rem;
         }
         
         input[type="checkbox"] {
             width: 1rem;
             height: 1rem;
             cursor: pointer;
+            accent-color: #DFA05D;
         }
         
         .preview-section {
@@ -168,13 +201,15 @@
         }
         
         .canvas-wrapper {
-            background: #1f2937;
+            background: #1f1f1f;
             padding: 2rem;
-            border-radius: 0.5rem;
+            border-radius: 0.75rem;
+            border: 1px solid #3a3a3a;
         }
         
         canvas {
-            border: 2px solid #4b5563;
+            border: 2px solid #3a3a3a;
+            border-radius: 0.5rem;
             image-rendering: crisp-edges;
         }
         
@@ -183,24 +218,32 @@
             align-items: center;
             justify-content: center;
             gap: 0.5rem;
-            padding: 0.75rem 1.5rem;
-            background: #2563eb;
+            padding: 0.65rem 1.25rem;
+            background: #AC5045;
             color: #fff;
             border: none;
             border-radius: 0.5rem;
-            font-weight: 500;
+            font-weight: 600;
             cursor: pointer;
-            transition: background 0.2s;
+            transition: all 0.2s;
+            width: 100%;
+            max-width: 220px;
+            font-size: 0.875rem;
         }
         
         button:hover {
-            background: #1d4ed8;
+            background: #8d403a;
+            transform: translateY(-1px);
+        }
+        
+        button:active {
+            transform: translateY(0);
         }
         
         .info {
             text-align: center;
-            font-size: 0.875rem;
-            color: #9ca3af;
+            font-size: 0.75rem;
+            color: #5a5a5a;
         }
     </style>
 </head>
@@ -212,11 +255,11 @@
             <div class="controls">
                 <div class="control-group">
                     <label for="text">Icon Text</label>
-                    <textarea id="text" placeholder="Enter text (use Enter for new lines)">MUTE</textarea>
+                    <textarea id="text" placeholder="Enter text">MUTE</textarea>
                 </div>
 
                 <div class="control-group">
-                    <label for="fontFamily">Font Family</label>
+                    <label for="fontFamily">Font</label>
                     <select id="fontFamily">
                         <option>Arial</option>
                         <option>Arial Black</option>
@@ -237,8 +280,13 @@
                 </div>
 
                 <div class="control-group">
-                    <label for="fontSize">Font Size: <span id="fontSizeValue">32</span>px</label>
+                    <label for="fontSize">Size: <span id="fontSizeValue">32</span>px</label>
                     <input type="range" id="fontSize" min="12" max="72" value="32">
+                </div>
+
+                <div class="control-group">
+                    <label for="verticalOffset">Vertical: <span id="verticalOffsetValue">0</span>px</label>
+                    <input type="range" id="verticalOffset" min="-30" max="30" value="0">
                 </div>
 
                 <div class="checkbox-group">
@@ -253,7 +301,7 @@
                 </div>
 
                 <div class="control-group">
-                    <label>Text Color</label>
+                    <label>Text</label>
                     <div class="color-input">
                         <input type="color" id="textColor" value="#ffffff">
                         <input type="text" id="textColorHex" value="#ffffff">
@@ -261,7 +309,7 @@
                 </div>
 
                 <div class="control-group">
-                    <label>Background Color</label>
+                    <label>Background</label>
                     <div class="color-input">
                         <input type="color" id="bgColor" value="#1a1a1a">
                         <input type="text" id="bgColorHex" value="#1a1a1a">
@@ -269,7 +317,7 @@
                 </div>
 
                 <div class="control-group">
-                    <label>Border Color</label>
+                    <label>Border</label>
                     <div class="color-input">
                         <input type="color" id="borderColor" value="#ff0000">
                         <input type="text" id="borderColorHex" value="#ff0000">
@@ -282,12 +330,12 @@
                 </div>
 
                 <div class="control-group">
-                    <label for="borderWidth">Border Width: <span id="borderWidthValue">4</span>px</label>
+                    <label for="borderWidth">Border: <span id="borderWidthValue">4</span>px</label>
                     <input type="range" id="borderWidth" min="0" max="20" value="4">
                 </div>
 
                 <div class="control-group">
-                    <label for="cornerRadius">Corner Radius: <span id="cornerRadiusValue">0</span>px</label>
+                    <label for="cornerRadius">Radius: <span id="cornerRadiusValue">0</span>px</label>
                     <input type="range" id="cornerRadius" min="0" max="72" value="0">
                 </div>
             </div>
@@ -298,16 +346,25 @@
                 </div>
                 
                 <button id="download">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
                         <polyline points="7 10 12 15 17 10"></polyline>
                         <line x1="12" y1="15" x2="12" y2="3"></line>
                     </svg>
-                    Download Icon (144x144)
+                    Download Icon
+                </button>
+
+                <button id="downloadPair">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="7 10 12 15 17 10"></polyline>
+                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                    </svg>
+                    Download ON/OFF
                 </button>
 
                 <div class="info">
-                    <p>PNG - 144x144px</p>
+                    <p>144×144px PNG</p>
                 </div>
             </div>
         </div>
@@ -349,7 +406,10 @@
         const borderWidthValue = document.getElementById('borderWidthValue');
         const cornerRadiusInput = document.getElementById('cornerRadius');
         const cornerRadiusValue = document.getElementById('cornerRadiusValue');
+        const verticalOffsetInput = document.getElementById('verticalOffset');
+        const verticalOffsetValue = document.getElementById('verticalOffsetValue');
         const downloadBtn = document.getElementById('download');
+        const downloadPairBtn = document.getElementById('downloadPair');
 
         // Load saved settings
         textInput.value = loadSetting('text', 'MUTE');
@@ -365,6 +425,7 @@
         borderColorHex.value = loadSetting('borderColor', '#ff0000');
         borderWidthInput.value = loadSetting('borderWidth', 4);
         cornerRadiusInput.value = loadSetting('cornerRadius', 0);
+        verticalOffsetInput.value = loadSetting('verticalOffset', 0);
 
         // Default border color presets
         const defaultBorderColors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff', '#ffffff', '#000000'];
@@ -398,6 +459,51 @@
             });
         }
 
+        function drawToCanvas(context, size, text, fontFamily, fontSize, isBold, isItalic, textColor, bgColor, borderColor, borderWidth, cornerRadius, verticalOffset) {
+            context.clearRect(0, 0, size, size);
+
+            // Draw background
+            context.fillStyle = bgColor;
+            if (cornerRadius > 0) {
+                context.beginPath();
+                context.roundRect(0, 0, size, size, cornerRadius);
+                context.fill();
+            } else {
+                context.fillRect(0, 0, size, size);
+            }
+
+            // Draw border
+            if (borderWidth > 0) {
+                context.strokeStyle = borderColor;
+                context.lineWidth = borderWidth;
+                if (cornerRadius > 0) {
+                    context.beginPath();
+                    context.roundRect(borderWidth / 2, borderWidth / 2, size - borderWidth, size - borderWidth, Math.max(0, cornerRadius - borderWidth / 2));
+                    context.stroke();
+                } else {
+                    context.strokeRect(borderWidth / 2, borderWidth / 2, size - borderWidth, size - borderWidth);
+                }
+            }
+
+            // Draw text
+            context.fillStyle = textColor;
+            const fontStyle = `${isItalic ? 'italic' : ''} ${isBold ? 'bold' : ''} ${fontSize}px ${fontFamily}`.trim();
+            context.font = fontStyle;
+            context.textAlign = 'center';
+            context.textBaseline = 'middle';
+            
+            const italicOffset = isItalic ? -fontSize * 0.10 : 0;
+            
+            const lines = text.split('\n');
+            const lineHeight = fontSize * 1.2;
+            const totalHeight = lines.length * lineHeight;
+            const startY = (size - totalHeight) / 2 + lineHeight / 2 + verticalOffset;
+
+            lines.forEach((line, index) => {
+                context.fillText(line, size / 2 + italicOffset, startY + index * lineHeight);
+            });
+        }
+
         function drawIcon() {
             const size = 144;
             const text = textInput.value;
@@ -410,49 +516,9 @@
             const borderColor = borderColorInput.value;
             const borderWidth = parseInt(borderWidthInput.value);
             const cornerRadius = parseInt(cornerRadiusInput.value);
+            const verticalOffset = parseInt(verticalOffsetInput.value);
 
-            ctx.clearRect(0, 0, size, size);
-
-            // Draw background
-            ctx.fillStyle = bgColor;
-            if (cornerRadius > 0) {
-                ctx.beginPath();
-                ctx.roundRect(0, 0, size, size, cornerRadius);
-                ctx.fill();
-            } else {
-                ctx.fillRect(0, 0, size, size);
-            }
-
-            // Draw border
-            if (borderWidth > 0) {
-                ctx.strokeStyle = borderColor;
-                ctx.lineWidth = borderWidth;
-                if (cornerRadius > 0) {
-                    ctx.beginPath();
-                    ctx.roundRect(borderWidth / 2, borderWidth / 2, size - borderWidth, size - borderWidth, Math.max(0, cornerRadius - borderWidth / 2));
-                    ctx.stroke();
-                } else {
-                    ctx.strokeRect(borderWidth / 2, borderWidth / 2, size - borderWidth, size - borderWidth);
-                }
-            }
-
-            // Draw text
-            ctx.fillStyle = textColor;
-            const fontStyle = `${isItalic ? 'italic' : ''} ${isBold ? 'bold' : ''} ${fontSize}px ${fontFamily}`.trim();
-            ctx.font = fontStyle;
-            ctx.textAlign = 'center';
-            ctx.textBaseline = 'middle';
-            
-            const italicOffset = isItalic ? -fontSize * 0.10 : 0;
-            
-            const lines = text.split('\n');
-            const lineHeight = fontSize * 1.2;
-            const totalHeight = lines.length * lineHeight;
-            const startY = (size - totalHeight) / 2 + lineHeight / 2;
-
-            lines.forEach((line, index) => {
-                ctx.fillText(line, size / 2 + italicOffset, startY + index * lineHeight);
-            });
+            drawToCanvas(ctx, size, text, fontFamily, fontSize, isBold, isItalic, textColor, bgColor, borderColor, borderWidth, cornerRadius, verticalOffset);
         }
 
         // Event listeners
@@ -532,6 +598,12 @@
             drawIcon();
         });
 
+        verticalOffsetInput.addEventListener('input', () => {
+            verticalOffsetValue.textContent = verticalOffsetInput.value;
+            saveSetting('verticalOffset', parseInt(verticalOffsetInput.value));
+            drawIcon();
+        });
+
         document.getElementById('saveBorderColor').addEventListener('click', () => {
             const currentColor = borderColorInput.value;
             if (!borderColorPresets.includes(currentColor)) {
@@ -552,13 +624,57 @@
         });
 
         downloadBtn.addEventListener('click', () => {
+            const text = textInput.value.replace(/\n/g, '_').replace(/[^a-z0-9_]/gi, '_').toLowerCase() || 'icon';
             canvas.toBlob((blob) => {
                 const url = URL.createObjectURL(blob);
                 const a = document.createElement('a');
                 a.href = url;
-                a.download = `streamdeck-icon-${Date.now()}.png`;
+                a.download = `${text}.png`;
                 a.click();
                 URL.revokeObjectURL(url);
+            });
+        });
+
+        downloadPairBtn.addEventListener('click', () => {
+            const text = textInput.value.replace(/\n/g, '_').replace(/[^a-z0-9_]/gi, '_').toLowerCase() || 'icon';
+            
+            // Download colored version (ON state)
+            canvas.toBlob((blob) => {
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `${text}.png`;
+                a.click();
+                URL.revokeObjectURL(url);
+                
+                // Now create and download black version (OFF state)
+                setTimeout(() => {
+                    const offCanvas = document.createElement('canvas');
+                    offCanvas.width = 144;
+                    offCanvas.height = 144;
+                    const offCtx = offCanvas.getContext('2d');
+                    
+                    const size = 144;
+                    const fontFamily = fontFamilySelect.value;
+                    const fontSize = parseInt(fontSizeInput.value);
+                    const isBold = isBoldCheckbox.checked;
+                    const isItalic = isItalicCheckbox.checked;
+                    const borderWidth = parseInt(borderWidthInput.value);
+                    const cornerRadius = parseInt(cornerRadiusInput.value);
+                    const verticalOffset = parseInt(verticalOffsetInput.value);
+                    
+                    // Draw with black background
+                    drawToCanvas(offCtx, size, textInput.value, fontFamily, fontSize, isBold, isItalic, '#ffffff', '#000000', '#000000', borderWidth, cornerRadius, verticalOffset);
+                    
+                    offCanvas.toBlob((offBlob) => {
+                        const offUrl = URL.createObjectURL(offBlob);
+                        const offA = document.createElement('a');
+                        offA.href = offUrl;
+                        offA.download = `${text}_off.png`;
+                        offA.click();
+                        URL.revokeObjectURL(offUrl);
+                    });
+                }, 100);
             });
         });
 
@@ -566,6 +682,7 @@
         fontSizeValue.textContent = fontSizeInput.value;
         borderWidthValue.textContent = borderWidthInput.value;
         cornerRadiusValue.textContent = cornerRadiusInput.value;
+        verticalOffsetValue.textContent = verticalOffsetInput.value;
 
         // Initial draw
         drawIcon();
